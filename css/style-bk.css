@@ -1,0 +1,231 @@
+body{
+  font-family:Arial,Helvetica,sans-serif;
+}
+h1{
+  font-size:1em;
+}
+table{
+  border-collapse:0;
+  border-spacing:0;
+}
+form{
+  margin:0;
+}
+tr#clip-0{
+  display:none;
+}
+#player-table{
+  font-size:1.25em;
+}
+#player-table tr{
+  
+}
+#player-table tr.clip-playing{
+  color:#D80000;
+  background-color:#D8D8D8;
+}
+#player-table tr.clip-playing input.keybind-text,
+#player-table tr.clip-playing input.title-text{
+  color:#D80000;
+  border:0;
+}
+#player-table tr.clip-stopped{
+  background-color:#FFFFFF;
+}
+#player-table td{
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+#player-table td.duration,
+#player-table td.out{
+  text-align:right;
+  padding-left:0.75em;
+  padding-right:0.75em;
+  font-family:monospace;
+  font-size:1.5em;
+  font-weight:bold;
+}
+
+/* keybind display */
+input.keybind-text{
+  font-family:monospace;
+  font-size:1.5em;
+  font-weight:bold;
+  text-transform:uppercase;
+  text-align:center;
+  border:0;
+  width:1em;
+  background:transparent;
+}
+/* title display */
+input.title-text,
+input.list_name-text{
+  border:0;
+  font-size:1em;
+  background:transparent;
+  width:12em;
+}
+
+/* play/pause button */
+input.play{
+  height:2em;
+  font-weight:bold;
+}
+tr.clip-playing input.play{
+  color:#FFFFFF;
+  background-color:#D80000;
+}
+tr.clip-stopped input.play{
+  color:#000000;
+  background-color:#00D800;
+}
+
+/* loop toggle button */
+input.loop{
+  height:2em;
+  font-weight:bold;
+  border-radius: 10px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#AAAAAA #555555 #555555 #AAAAAA;
+}
+input.loop-false{
+  background-color:#808080;
+  color:#FFFFFF;
+  width:5em;
+}
+input.loop-true{
+  background-color:#00D800;
+  color:#000000;
+  width:5em;
+}
+
+/* segue toggle button */
+input.segue{
+  height:2em;
+  font-weight:bold;
+  border-radius: 10px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#AAAAAA #555555 #555555 #AAAAAA;
+}
+input.segue-false{
+  background-color:#808080;
+  color:#FFFFFF;
+  width:5em;
+}
+input.segue-true{
+  background-color:#00D800;
+  color:#000000;
+  width:5em;
+}
+
+/* move_up button */
+
+[type=submit]{
+  height:2em;
+  width:2em;
+  margin:0 1em;
+}
+
+/*
+input.move_up,
+input.move_down{
+  height:1.5em;
+  font-weight:bold;
+  font-size:0.75em;
+  background-color:transparent;
+  color:#000000;
+  border:0;
+  padding:0;
+}
+#player-table td.move_up,
+#player-table td.move_down{
+  padding:0;
+}
+
+#player-table td.move_up form,
+#player-table td.move_down form{
+  background-color: #FFFF73;
+  width:.75em;
+  height:1.25em;
+  text-align:center;
+  border-radius: 10px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#AAAAAA #555555 #555555 #AAAAAA;
+}
+#player-table td.move_up form:hover,
+#player-table td.move_down form:hover{
+  background-color: #73FF73;
+}
+
+*/
+
+
+/* remove_clip button */
+input.remove_clip{
+  height:2em;
+  font-weight:bold;
+  background-color:#D80000;
+  color:#FFFFFF;
+}
+
+/* Table column widths and such */
+
+#player-table td.keybind{
+  padding:0 0.5em 0 0.75em;
+}
+#player-table td.title{
+  text-align:left;
+}
+#player-table td.play{
+  
+}
+#player-table td.play input{
+  width:4em;
+  border-radius: 10px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#AAAAAA #555555 #555555 #AAAAAA;
+}
+#player-table td.under input{
+  height:2em;
+  font-weight:bold;
+  width:4em;
+  border-radius: 10px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#AAAAAA #555555 #555555 #AAAAAA;
+}
+
+
+
+#player-table td.loop{
+  
+}
+#player-table td.segue{
+  
+}
+#player-table td.move_up{
+  padding-right:2px;
+}
+#player-table td.move_down{
+  padding-right:1em;
+}
+#player-table td.remove{
+  margin-right:0;
+}
+#form_edit_text_listname{
+  display:inline;
+  width:220px;
+  font-size:1.25em;
+}
+#edit-list-name{
+  width:350px;
+  display:inline-block;
+}
+#edit-list-name-label{
+  margin-right:1em;
+}

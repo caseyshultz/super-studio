@@ -1,0 +1,60 @@
+#container{
+  width:960px;
+  margin:0 auto;
+}
+th{
+  font-size:0.5em;
+  text-align:left;
+}
+td, th{
+  vertical-align:top;
+}
+table#main-table th{
+  border:1px solid #000000;
+  padding:3px;
+  background-color:#808080;
+}
+table#main-table td{
+  border:1px solid #000000;
+  padding:3px;
+  background-color:#CCCCCC;
+}
+form{
+  margin:0;
+}
+button{
+  height:2.5em;
+  width:5em;
+}
+button.move{
+  width:2.5em;
+}
+input[type=text]{
+  height:2.5em;
+}
+input.title-text{
+  width:20em;
+  height:2em;
+  border:0;
+  outline:none;
+  box-shadow:none;
+  font-size:1em;
+  line-height:1em;
+  padding:0 10px;
+  margin:0;
+}
+input.keybind-text{
+  width:3em;
+  height:2.5em;
+}
+select.change-list{
+  width:7em;
+  height:2.5em;
+}
+#fullscreen{
+  min-width:10em;
+  float:right;
+  padding:2px 5px;
+  border:1px solid #808080;
+}
+
