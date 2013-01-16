@@ -60,52 +60,6 @@ function form_mod_clip($clip,$command="none"){
   }
   return $return;
 }
-/*
-Makes buttons for the table that have 2 states or the table headers
-$type should only contain letters, numbers and spaces
-*/
-function form_toggle($clip,$type){
-  $type_m = str_replace(" ","_",strtolower($type)); // machine readable
-  if($clip['delta'] == 0){
-    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.
-                  ' heading">'.$type.'</th>'."\n";
-  }
-  else{
-    if($type == "Out"){
-      $return ='    <td id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.'">000</td>'."\n";
-    }
-    else{
-      $return ='    <td class="'.$type_m.'">'."\n";
-      $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].
-                      '])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.
-                      $type_m.' btn btn-inverse">'.$type.'</button>'."\n";
-      $return.='    </td>'."\n";
-    }
-  }
-  return $return;
-}
-/*
-  Make the play/stop button
-*/
-function play_button($clip,$type){
-  $type_i='<i class="icon-play"></i>'; // bootstrap icon code
-  $type_m = 'play'; // machine readable
-  if($clip['delta'] == 0){
-    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.
-                  ' heading">'.$type.'</th>'."\n";
-  }
-  else{
-    $return ='    <td class="'.$type_m.'">'."\n";
-    $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].
-                    '])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.
-                    $type_m.' btn btn-success">'.$type_i.'</button>'."\n";
-    $return.='    </td>'."\n";
-  }
-  return $return;
-}
-
-
-
 
 /*
 This is for fields like title and keybind.
@@ -167,44 +121,7 @@ function form_send_clip_to_list($clip){
   }
   return $return;
 }
-/*
- * This assembles the HTML table.
- */
 
-function tableHTML($list){
-  if($list){
-    $return='<table id="player-table">'."\n";
-    foreach($list as $delta => $clip){
-      /*
-      Make sure volume is in the $clip array and set to 1.0
-      */
-      $clip['volume'] = 1.0;
-      $return.='  <tr id="clip-'.$delta.'" class="clip-stopped">'."\n";
-      $return.=     form_edit_text($clip,"Title");
-      $return.=     form_edit_text($clip,"Keybind");
-      $return.=     play_button($clip,"Play");
-      $return.=     duration_timer($clip);
-      $return.=     form_toggle($clip,"Under");
-      $return.=     form_toggle($clip,"Out");
-      $return.=     form_toggle($clip,"Loop");
-      $return.=     form_toggle($clip,"Segue");
-      $return.=     form_mod_clip($clip,"move_up");
-      $return.=     form_mod_clip($clip,"move_down");
-      $return.=     form_change_clip_list($clip);
-      if($list[1]['lid']==1){
-        $return.=     form_remove_clip($clip);
-      }
-      $return.='  </tr>'."\n";
-    }
-  $return.='</table>'."\n";
-  }
-  else{
-    $return=false;
-  }
-  return $return;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 
 /*
 This makes a form/button to move clips up and down in the current list. It will
@@ -233,22 +150,22 @@ function form_delta_change($clip,$command){
   Make the play/stop button
 */
 function button_play_stop($cid,$file){
-  $return=  '<button onclick="playStop(player['.$cid.'])" id="play-button-'.$cid.
+  $return=  '<button id="play-button-'.$cid.
             '" type="button" class="play btn btn-success"title="'.$file.'"><i class="icon-play"></i></button>';
   return $return;
 }
 function button_volume_under($cid){
-  $return=  '<button onclick="underButton(player['.$cid.'])" id="under-button-'.$cid.
+  $return=  '<button id="under-button-'.$cid.
             '" type="button" class="under btn disabled">Under</button>';
   return $return;
 }
 function button_loop($cid){
-  $return=  '<button onclick="loopButton(player['.$cid.'])" id="loop-button-'.$cid.
+  $return=  '<button id="loop-button-'.$cid.
             '" type="button" class="loop btn btn-inverse"><i class="icon-repeat icon-white"></i></button>';
   return $return;
 }
 function button_segue($cid){
-  $return=  '<button onclick="segueButton(player['.$cid.'])" id="segue-button-'.$cid.
+  $return=  '<button id="segue-button-'.$cid.
             '" type="button" class="segue btn btn-inverse"><i class="icon-play-circle icon-white"></i></button>';
   return $return;
 }

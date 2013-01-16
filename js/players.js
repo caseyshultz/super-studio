@@ -115,8 +115,6 @@ function updateRemaining(player){
 
 
 
-// This is launched from an onclick="playStop(player[i])" attribute
-// defined in makeHTML.php.
 function playStop(player){
   if(player.paused == true && player.currentTime == 0){
     if(player.playedOnce == false){
@@ -165,8 +163,6 @@ function playStop(player){
   }
 }
 
-// This is launched from an onclick="loopButton(player[i])" attribute
-// defined in makeHTML.php.
 function loopButton(player){
   if(player.loop == false){
     player.loop=true;
@@ -180,8 +176,6 @@ function loopButton(player){
   }
 }
 
-// This is launched from an onclick="segueButton(player[i])" attribute
-// defined in makeHTML.php.
 function segueButton(player){
   if(player.segue == false){
     player.segue=true;
@@ -238,8 +232,6 @@ function formStateModify(state){
 }
 
 
-// This is launched from an onclick="underButton(player[i])" attribute
-// defined in makeHTML.php.
 function underButton(player){
   if(player.paused == false){
     
@@ -382,9 +374,13 @@ function playerControl(listId){
     // The play and loop buttons are not part of the database so they are
     // created here and put into the "file" column. 
     player[i].playbutton = document.getElementById(String('play-button-' + i));
+    player[i].playbutton.setAttribute('onclick','playStop(player['+i+'])');
     player[i].loopbutton = document.getElementById(String('loop-button-' + i));
+    player[i].loopbutton.setAttribute('onclick','loopButton(player['+i+'])');
     player[i].seguebutton = document.getElementById(String('segue-button-' + i));
+    player[i].seguebutton.setAttribute('onclick','segueButton(player['+i+'])');
     player[i].underbutton = document.getElementById(String('under-button-' + i));
+    player[i].underbutton.setAttribute('onclick','underButton(player['+i+'])');
     player[i].remainingID.innerHTML = formatTimeSeconds(player[i].remaining);
     setVolume(player[i],0);
     // Creates an array of keybinds to player ids.
