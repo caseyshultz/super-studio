@@ -1,23 +1,78 @@
+body{
+  margin:0 5px;
+}
+div{
+  padding-bottom:9px;
+  border-bottom:solid 1px #CCCCCC;
+  margin-bottom:10px;
+}
+header#top-header{
+  height:36px;
+}
+h1#page-title{
+  display:inline;
+  float:left;
+  margin-right:10px;
+}
 #container{
-  width:960px;
+  width:100%;
+  padding:0;
+  border:none;
   margin:0 auto;
 }
+#top-nav{
+  float:left;
+}
+#top-nav button{
+  width:auto;
+  max-width:10em;
+}
+
+#page-footer{
+  padding:0 0 10px 0;
+  border:none;
+  margin:0;
+  text-align:center;
+}
+#log-box{
+  color:#FFFFFF;
+  background-color:#808080;
+  font-weight:bold;
+  padding:3px;
+  letter-spacing:1px;
+}
+#log-output{
+  display:block;
+  width:100%;
+}
+
 th{
-  font-size:0.5em;
+  font-size:0.75em;
   text-align:left;
 }
-td, th{
+td,
+th{
   vertical-align:top;
 }
-table#main-table th{
+table.player-table th{
   border:1px solid #000000;
   padding:3px;
   background-color:#808080;
+  color:#FFFFFF;
+  letter-spacing:1px;
 }
-table#main-table td{
+table.player-table td{
   border:1px solid #000000;
   padding:3px;
+}
+table.player-table tr.clip-stopped{
   background-color:#CCCCCC;
+}
+table.player-table tr.clip-playing{
+  background-color:#222222;
+}
+table.player-table select{
+  margin:0;
 }
 form{
   margin:0;
@@ -31,21 +86,38 @@ button.move{
 }
 input[type=text]{
   height:2.5em;
+  font-size:1em;
+  letter-spacing:1px;
+  line-height:1em;
+  margin:0;
+  font-family:Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 input.title-text{
-  width:20em;
-  height:2em;
-  border:0;
-  outline:none;
-  box-shadow:none;
-  font-size:1em;
-  line-height:1em;
-  padding:0 10px;
-  margin:0;
+  width:100%;
+  height:1.25em;
+  font-size:1.5em;
+  border:none;
+}
+tr.clip-playing input.title-text{
+  background-color:#F89406;
 }
 input.keybind-text{
-  width:3em;
-  height:2.5em;
+  width:100%;
+  height:1.25em;
+  text-align:center;
+  font-size:1.5em;
+  font-weight:bold;
+  text-transform:uppercase;
+  color:#51A351;
+  background-color:#000000;
+  border:none;
+}
+tr.clip-playing input.keybind-text{
+  color:#F89406;
+}
+td.volume meter{
+  height:100%;
+  width:100%;
 }
 select.change-list{
   width:7em;
@@ -56,5 +128,104 @@ select.change-list{
   float:right;
   padding:2px 5px;
   border:1px solid #808080;
+}
+th.delta_up,
+th.delta_down,
+td.delta_up,
+td.delta_down{
+  width:2em;
+  text-align:center;
+}
+th.play,
+th.play,
+td.play,
+td.play{
+  width:4.5em;
+  text-align:center;
+}
+th.duration,td.duration{
+  width:4em;
+  text-align:center;
+}
+td.duration{
+  font-size:1.5em;
+  font-weight:bold;
+}
+tr.clip-playing td.duration{
+  color:FF0000;
+}
+
+table.player-table{width:100%}
+
+th.keybind,
+td.keybind{
+  width:5%;
+}
+th.title,
+td.title{
+  width:25%;
+}
+th.duration,
+td.duration{
+  width:10%;
+}
+th.volume,
+td.volume{
+  width:10%;
+}
+th.play,
+td.play{
+  width:8%;
+}
+th.under,
+td.under{
+  width:8%;
+}
+th.loop,
+td.loop{
+  width:8%;
+}
+th.segue,
+td.segue{
+  width:8%;
+}
+th.delta_up,
+td.delta_up{
+  width:4%;
+}
+th.delta_down,
+td.delta_down{
+  width:4%;
+}
+th.send_to_list,
+td.send_to_list{
+  width:10%;
+}
+
+button.play,
+button.under,
+button.loop,
+button.segue,
+button.move-up,
+button.move-down,
+select.change-list{
+  width:100%;
+}
+
+button.play[disabled],
+button.under[disabled],
+button.loop[disabled],
+button.segue[disabled],
+button.move-up[disabled],
+button.move-down[disabled],
+select.change-list[disabled]{
+  cursor:default;
+}
+button.move-up:hover,
+button.move-down:hover{
+  
+}
+button.delta-changed{
+  
 }
 

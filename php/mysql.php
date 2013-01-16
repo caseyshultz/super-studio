@@ -32,10 +32,10 @@ function db_conn(){
 function tryQuery($q,$line="0",$function="func_not_defined"){
   $return=mysql_query($q);
   if($return){
-    $GLOBALS['sysmsg'][]="Query success [".$function."][line ".$line."]: ".$q;
+    $GLOBALS['sysmsg'][]="Query success [".$function."][line ".$line."]:\n".$q;
   }
   else{
-    $GLOBALS['sysmsg'][]="Query failed [".$function."][line ".$line."]: ".$q." :".mysql_error();
+    $GLOBALS['sysmsg'][]="Query failed [".$function."][line ".$line."]:\n".$q." :".mysql_error();
   }
   return $return;
 }
@@ -67,36 +67,47 @@ function db_insert($array){
 
 
 // Get the records
-function db_get_list($lid){
+function db_get_list($lid,$movedDelta){
   $return=FALSE;
   if(isset($lid)){
-    $q='SELECT '.DB_CLIP_TABLE.'.cid, keybind, type, file, duration, title, size, lid, delta
-        FROM '.DB_CLIP_TABLE.' JOIN '.DB_ASSIGN_TABLE.'
-        ON '.DB_CLIP_TABLE.'.cid = '.DB_ASSIGN_TABLE.'.cid
-        WHERE lid = '.$lid.'
-        ORDER BY delta ASC
-        ';
+    $q='SELECT  '.DB_LIST_TABLE.'.lid,
+                '.DB_LIST_TABLE.'.name,
+                '.DB_LIST_TABLE.'.alias,
+                '.DB_ASSIGN_TABLE.'.delta,
+                '.DB_ASSIGN_TABLE.'.cid,
+                '.DB_ASSIGN_TABLE.'.keybind,
+                '.DB_CLIP_TABLE.'.type,
+                '.DB_CLIP_TABLE.'.file,
+                '.DB_CLIP_TABLE.'.duration,
+                '.DB_CLIP_TABLE.'.title,
+                '.DB_CLIP_TABLE.'.size
+    FROM '.DB_LIST_TABLE.', '.DB_ASSIGN_TABLE.', '.DB_CLIP_TABLE.'
+    WHERE '.DB_LIST_TABLE.'.lid = '.$lid.' AND
+          '.DB_LIST_TABLE.'.lid = '.DB_ASSIGN_TABLE.'.lid AND
+          '.DB_ASSIGN_TABLE.'.cid = '.DB_CLIP_TABLE.'.cid
+    ORDER BY delta ASC
+    ';
     $r=tryQuery($q,__LINE__,"db_get_list");
     if(mysql_num_rows($r) > 0){
-#      while ($row = mysql_fetch_assoc($r)) {
-#        $delta = $row['delta'];
-#        $return[0]['move_up']='move_up';
-#        $return[0]['move_down']='move_down';
-#        $count=0;
-#        foreach($row as $k => $v){
-#          $return[0][$k]=$k;  // Makes the zero element an identifier for keys
-#          $return[$delta][$k]=$v;
-#          $return[$delta]['move_up']='move_up';
-#          $return[$delta]['move_down']='move_down';
-#          $count++;
-#        }
-#      }
       while ($row = mysql_fetch_assoc($r)) {
         $delta = $row['delta'];
         
         foreach($row as $k => $v){
           if($delta == 1){
             $return[0][$k]=$k;  // Makes a zero element for all keys
+            if($k == 'lid'){
+              $return[0][$k]= $v;
+            }
+            if($k == 'name'){
+              $return[0][$k]= $v;
+            }
+            if($k == 'alias'){
+              $return[0][$k]= $v;
+            }
+            if($k == 'delta'){
+              $return[0][$k]= "0";
+            }
+            
           }
           $return[$delta][$k]=$v;
         }
@@ -115,6 +126,9 @@ function db_get_list($lid){
       }
       $return[0]['next']="next"; // Adds next and prev to the zero element
       $return[0]['prev']="prev"; // so they will have identifyable keys
+      if($movedDelta){
+        $return[0]['delta']=$movedDelta;
+      }
       $xml = db_make_xml($return);
       db_save_xml($lid,$xml);
     }
@@ -220,6 +234,7 @@ function db_shift_delta($lid,$cid,$direction){
             delta = '.$nd['above']['delta'].'
             WHERE cid = '.$nd['delta']['cid'].' AND lid = '.$nd['delta']['lid'].'
             ';
+        $newDelta = $nd['above']['delta'];
         // Make a new row below
         $q2='INSERT INTO '.DB_ASSIGN_TABLE.'
             SET
@@ -241,6 +256,7 @@ function db_shift_delta($lid,$cid,$direction){
             delta = '.$nd['below']['delta'].'
             WHERE cid = '.$nd['delta']['cid'].' AND lid = '.$nd['delta']['lid'].'
             ';
+        $newDelta = $nd['below']['delta'];
         // Make a new row above
         $q2='INSERT INTO '.DB_ASSIGN_TABLE.'
             SET
@@ -254,6 +270,8 @@ function db_shift_delta($lid,$cid,$direction){
         tryQuery($q0,__LINE__,"db_shift_delta");
         tryQuery($q1,__LINE__,"db_shift_delta");
         tryQuery($q2,__LINE__,"db_shift_delta");
+        // Return the new delta
+        return $newDelta;
       }
       else{
         $GLOBALS['sysmsg'][]="This item cannot be moved.";
@@ -326,20 +344,20 @@ function db_get_lists(){
 
 
 function db_remove_clip($cid,$lid){
-  if($lid != 0){
+  if($lid != 1){
     // check to see if this clip belongs to any other lists
     $in_lists=db_get_assigned_lists($cid);
-    // put the clip in list 0 if it is not there already
+    // put the clip in list 1 if it is not there already
     // keybind info will be disregarded
-    if(!in_array(0,$in_lists)){
-      // Add clip to list 0
-      db_new_assign($cid,"",0);
+    if(!in_array(1,$in_lists)){
+      // Add clip to list 1
+      db_new_assign($cid,"",1);
     }
 
   }
-  else{ // list zero is handled differently that all other lists.
-    // if something is in list zero it is because it is NOT in any other lists
-    // removing a clip from list zero deletes it from the database.
+  else{ // list one (Trash) is handled differently that all other lists.
+    // if something is in list one it is because it is NOT in any other lists
+    // removing a clip from list one deletes it from the database.
     $dq='DELETE FROM '.DB_CLIP_TABLE.'
         WHERE cid = '.$cid.'
         ';
@@ -352,12 +370,12 @@ function db_remove_clip($cid,$lid){
       AND cid = '.$cid.'
       ';
   tryQuery($q,__LINE__,"db_remove_clip");
-  if($lid != 0){ // no need to clean list zero twice
+  if($lid != 1){ // no need to clean list one twice
     db_clean_deltas($lid);
   }
-  // Manage list zero as we make changes to other lists
-  db_clean_deltas(0);
-  db_get_list(0);
+  // Manage list one as we make changes to other lists
+  db_clean_deltas(1);
+  db_get_list(1);
 }
 /*
  * Move a clip from one list to another

@@ -14,13 +14,16 @@ if(!empty($_FILES)){
   include_once('getid3/getid3.php');
   foreach($_FILES as $file){
     if(save_file($file)){
-      
+      echo "We're here.";
       $getID3 = new getID3;
       $tags = $getID3->analyze(AUDIO_PATH.$file['name']);
       
       $clip['clip']['file']=$file['name'];
       $clip['clip']['type']=$file['type'];
       $clip['clip']['size']=$file['size'];
+      
+      $GLOBALS['sysmsg'][]=$tags['playtime_seconds'];
+      
       $clip['clip']['duration']=round($tags['playtime_seconds']);
       
       if(isset($_POST['title'])){
@@ -39,16 +42,17 @@ if(!empty($_FILES)){
     }
   }
 }
+
 if(isset($_POST['command'])){
   
   switch($_POST['command']){
   
     case "move_down":
-      db_shift_delta($_POST['lid'],$_POST['cid'],$_POST['command']);
+      $movedDelta = db_shift_delta($_POST['lid'],$_POST['cid'],$_POST['command']);
       break;
       
     case "move_up":
-      db_shift_delta($_POST['lid'],$_POST['cid'],$_POST['command']);
+      $movedDelta = db_shift_delta($_POST['lid'],$_POST['cid'],$_POST['command']);
       break;
   
     case "edit_text_title":
@@ -78,8 +82,11 @@ if(isset($_POST['command'])){
       break;
   }
 }
+if(!isset($movedDelta)){
+  $movedDelta="0";
+}
 /*
 Fetching the list is the last thing to do here.
 */
-$list = db_get_list($lid);
+$list = db_get_list($lid,$movedDelta);
 ?>

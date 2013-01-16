@@ -9,11 +9,11 @@ require_once('php/config.php');
   uses.
 */
 $main_table_columns = array(
-            "duration"=>"Time",
-            "title"=>"Title",
             "keybind"=>"Key",
-            "play"=>"Play/Stop",
+            "title"=>"Title",
+            "duration"=>"Time",
             "volume"=>"Volume",
+            "play"=>"Play/Stop",
             "under"=>"Under",
             "loop"=>"Loop",
             "segue"=>"Segue",
@@ -51,12 +51,12 @@ $json_list = json_encode($list);
 <?php include('php/formAddClip.php'); ?>
 </div>
 
+<?php include('php/debugging/index.php'); ?>
+
 <script type="text/javascript" src="js/players.js"></script>
 <script type="text/javascript">loadList(<?php echo $lid; ?>);</script>
 <script type="text/javascript">playerControl(<?php echo $lid; ?>);</script>
 <script type="text/javascript">//getTableLabels(<?php echo $json_list; ?>);</script>
-
-<?php include('php/debugging.php'); ?>
 
 <div id="page-footer">
 StudioPlayer - Copyright 2007 - <?php echo date("Y"); ?> Casey Shultz

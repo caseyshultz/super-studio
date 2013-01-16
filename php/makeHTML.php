@@ -3,19 +3,13 @@
 This makes a form/button to remove clips from the current list.
 */
 function form_remove_clip($clip){
-  if($clip['cid']==0){
-    $return ='    <th id="remove-'.$clip['delta'].'" class="remove heading">Remove</th>'."\n";
-  }
-  else{
-    $return  = '      <td id="remove-'.$clip['delta'].'" class="remove">'."\n";
-    $return .= '        <form class="form_remove_clip" name="form_remove_'.$clip['cid'].'" method="post" action="'.SITE_HOME.'">'."\n";
-    $return .= '          <input type="hidden" name="cid" value="'.$clip['cid'].'" />'."\n";
-    $return .= '          <input type="hidden" name="lid" value="'.$clip['lid'].'" />'."\n";
-    $return .= '          <input type="hidden" name="command" value="remove_clip" />'."\n";
-    $return .= '          <input type="submit" id="remove_clip-'.$clip['cid'].'" class="remove_clip" value="X">'."\n";
-    $return .= '        </form>'."\n";
-    $return .= '      </td>'."\n";
-  }
+  $return = '        <form class="form_remove_clip" name="form_remove_'.$clip['cid'].'" method="post" action="'.SITE_HOME.'">'."\n";
+  $return .= '          <input type="hidden" name="cid" value="'.$clip['cid'].'" />'."\n";
+  $return .= '          <input type="hidden" name="lid" value="'.$clip['lid'].'" />'."\n";
+  $return .= '          <input type="hidden" name="command" value="remove_clip" />'."\n";
+  $return .= '          <input type="submit" id="remove_clip-'.$clip['cid'].'" class="remove_clip" value="X">'."\n";
+  $return .= '        </form>'."\n";
+    
   return $return;
 }
 /*
@@ -39,7 +33,8 @@ This makes a form/button to move clips up and down in the current list.
 function form_mod_clip($clip,$command="none"){
   $shrtcmdtxt=str_replace("move_","",$command);
   if($clip['cid']==0){
-    $return ='    <th id="'.$command.'-'.$clip['delta'].'" class="'.$command.' heading">'.$shrtcmdtxt.'</th>'."\n";
+    $return ='    <th id="'.$command.'-'.$clip['delta'].'" class="'.$command.
+                  ' heading">'.$shrtcmdtxt.'</th>'."\n";
   }
   else{
     if($command=="move_up"){
@@ -50,24 +45,17 @@ function form_mod_clip($clip,$command="none"){
       $shrtcmd='<i class="icon-arrow-down"></i>';
       $hint="dn";
     }
-    
-    
-
     $return ='      <td id="'.$command.'-'.$clip['delta'].'" class="'.$command.'">'."\n";
-    
-    
-    
-    $return.='        <form class="form_mod_clip '.$command.'" name="form_'.$command.'_'.$clip['delta'].'" method="post" action="'.SITE_HOME.'">'."\n";
+    $return.='        <form class="form_mod_clip '.$command.'" name="form_'.
+                      $command.'_'.$clip['delta'].'" method="post" action="'.SITE_HOME.'">'."\n";
     $return.='          <input type="hidden" name="cid" value="'.$clip['cid'].'" />'."\n";
     $return.='          <input type="hidden" name="lid" value="'.$clip['lid'].'" />'."\n";
     $return.='          <input type="hidden" name="command" value="'.$command.'" />'."\n";
-    $return.='          <button type="submit" id="'.$command.'-'.$clip['cid'].'" class="move '.$command.'" title="'.$shrtcmdtxt.'">'."\n";
+    $return.='          <button type="submit" id="'.$command.'-'.$clip['cid'].
+                        '" class="move-'.$command.'" title="'.$shrtcmdtxt.'">'."\n";
     $return.='            '.$shrtcmd."\n";
     $return.='          </button>'."\n";
     $return.='        </form>'."\n";
-    
-    
-    
     $return.='      </td>'."\n";
   }
   return $return;
@@ -79,7 +67,8 @@ $type should only contain letters, numbers and spaces
 function form_toggle($clip,$type){
   $type_m = str_replace(" ","_",strtolower($type)); // machine readable
   if($clip['delta'] == 0){
-    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.' heading">'.$type.'</th>'."\n";
+    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.
+                  ' heading">'.$type.'</th>'."\n";
   }
   else{
     if($type == "Out"){
@@ -87,7 +76,9 @@ function form_toggle($clip,$type){
     }
     else{
       $return ='    <td class="'.$type_m.'">'."\n";
-      $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].'])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.$type_m.' btn btn-inverse">'.$type.'</button>'."\n";
+      $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].
+                      '])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.
+                      $type_m.' btn btn-inverse">'.$type.'</button>'."\n";
       $return.='    </td>'."\n";
     }
   }
@@ -100,11 +91,14 @@ function play_button($clip,$type){
   $type_i='<i class="icon-play"></i>'; // bootstrap icon code
   $type_m = 'play'; // machine readable
   if($clip['delta'] == 0){
-    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.' heading">'.$type.'</th>'."\n";
+    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.
+                  ' heading">'.$type.'</th>'."\n";
   }
   else{
     $return ='    <td class="'.$type_m.'">'."\n";
-    $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].'])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.$type_m.' btn btn-success">'.$type_i.'</button>'."\n";
+    $return.='      <button onclick="'.$type_m.'Button(player['.$clip['delta'].
+                    '])" id="'.$type_m.'-'.$clip['delta'].'" type="button" class="'.
+                    $type_m.' btn btn-success">'.$type_i.'</button>'."\n";
     $return.='    </td>'."\n";
   }
   return $return;
@@ -119,19 +113,19 @@ $type should only contain letters, numbers and spaces
 */
 function form_edit_text($clip,$type){
   $type_m = str_replace(" ","_",strtolower($type)); // machine readable
-  if($clip['delta'] == 0){
-    $return ='    <th id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.' heading">'.$type.'</th>'."\n";
-  }
-  else{
-    $return ='    <td class="'.$type_m.'">'."\n";
-    $return.='      <form class="form_edit_text" name="form_edit_text_'.$type_m.'_'.$clip['delta'].'" method="post" action="'.SITE_HOME.'">'."\n";
-    $return.='        <input type="hidden" name="command" value="edit_text_'.$type_m.'">'."\n";
-    $return.='        <input name="cid" value="'.$clip['cid'].'" type="hidden">'."\n";
-    $return.='        <input name="lid" value="'.$clip['lid'].'" type="hidden">'."\n";
-    $return.='        <input name="'.$type_m.'" id="'.$type_m.'-'.$clip['delta'].'" class="'.$type_m.'-text" type="text" value="'.$clip[$type_m].'" onfocus="KeyCheckActive = false" onblur="KeyCheckActive = true" required size=25>'."\n";
-    $return.='      </form>'."\n";
-    $return.='    </td>'."\n";
-  }
+
+
+  $return ='      <form class="form_edit_text" name="form_edit_text_'.$type_m.
+                  '_'.$clip['delta'].'" method="post" action="'.SITE_HOME.'">'."\n";
+  $return.='        <input type="hidden" name="command" value="edit_text_'.$type_m.'">'."\n";
+  $return.='        <input name="cid" value="'.$clip['cid'].'" type="hidden">'."\n";
+  $return.='        <input name="lid" value="'.$clip['lid'].'" type="hidden">'."\n";
+  $return.='        <input name="'.$type_m.'" id="'.$type_m.'-entry-'.$clip['delta'].
+                    '" class="'.$type_m.'-text" type="text" value="'.$clip[$type_m].
+                    '" onfocus="KeyCheckActive = false" onblur="KeyCheckActive = true" required size=25>'."\n";
+  $return.='      </form>'."\n";
+
+
   return $return;
 }
 /*
@@ -150,17 +144,17 @@ function duration_timer($clip){
 /*
 Pull-down list to move clip to a new list
 */
-function form_change_clip_list($clip){
+function form_send_clip_to_list($clip){
   if($clip['delta'] == 0){
-    $return ='    <th>Change</th>'."\n";
+    $return =''."\n";
   }
   else{
-    $return ='    <td>'."\n";
-    $return.='      <form name="change_clip_list-'.$clip['cid'].'" method="post" action="'.SITE_HOME.'" enctype="multipart/form-data">'."\n";
+    
+    $return ='      <form name="change_clip_list-'.$clip['delta'].'" method="post" action="'.SITE_HOME.'" enctype="multipart/form-data">'."\n";
     $return.='        <input type="hidden" name="command" value="change_clip_list">'."\n";
     $return.='        <input type="hidden" name="cid" value="'.$clip['cid'].'">'."\n";
     $return.='        <input type="hidden" name="oldlid" value="'.$clip['lid'].'">'."\n";
-    $return.='        <select name="lid" class="change-list" onchange="this.form.submit()">'."\n";
+    $return.='        <select id="send_to_options-'.$clip['delta'].'" name="lid" class="change-list" onchange="this.form.submit()">'."\n";
     $return.='          <option value="">Move to...</option>'."\n";
     $list_ids = db_get_lists();
     foreach($list_ids as $k => $v){
@@ -170,7 +164,6 @@ function form_change_clip_list($clip){
     }
     $return.='        </select>'."\n";
     $return.='      </form>'."\n";
-    $return.='    </td>'."\n";
   }
   return $return;
 }
@@ -211,50 +204,156 @@ function tableHTML($list){
   return $return;
 }
 
-function tableHTML2($list){
+////////////////////////////////////////////////////////////////////////////////
+
+/*
+This makes a form/button to move clips up and down in the current list. It will
+not return a form to move the first item up or the last item down.
+*/
+function form_delta_change($clip,$command){
+  
+  $return="";
+  if( !($clip['delta'] == "1" && $command == "up")
+      &&
+      !($clip['delta'] > $clip['next'] && $command == "down")
+    ){
+    $return.='        <form class="delta_change '.$command.'" name="form_'.$command.'_'.$clip['delta'].'" method="post" action="'.SITE_HOME.'">'."\n";
+    $return.='          <input type="hidden" name="cid" value="'.$clip['cid'].'" />'."\n";
+    $return.='          <input type="hidden" name="lid" value="'.$clip['lid'].'" />'."\n";
+    $return.='          <input type="hidden" name="command" value="move_'.$command.'" />'."\n";
+    $return.='          <button type="submit" id="move-'.$command.'-'.$clip['delta'].'" class="move-'.$command.' btn" title="'.$command.'">'."\n";
+    $return.='            <i class="icon-arrow-'.$command.'"></i>'."\n";
+    $return.='          </button>'."\n";
+    $return.='        </form>'."\n";
+  }
+  return $return;
+}
+
+/*
+  Make the play/stop button
+*/
+function button_play_stop($cid,$file){
+  $return=  '<button onclick="playStop(player['.$cid.'])" id="play-button-'.$cid.
+            '" type="button" class="play btn btn-success"title="'.$file.'"><i class="icon-play"></i></button>';
+  return $return;
+}
+function button_volume_under($cid){
+  $return=  '<button onclick="underButton(player['.$cid.'])" id="under-button-'.$cid.
+            '" type="button" class="under btn disabled">Under</button>';
+  return $return;
+}
+function button_loop($cid){
+  $return=  '<button onclick="loopButton(player['.$cid.'])" id="loop-button-'.$cid.
+            '" type="button" class="loop btn btn-inverse"><i class="icon-repeat icon-white"></i></button>';
+  return $return;
+}
+function button_segue($cid){
+  $return=  '<button onclick="segueButton(player['.$cid.'])" id="segue-button-'.$cid.
+            '" type="button" class="segue btn btn-inverse"><i class="icon-play-circle icon-white"></i></button>';
+  return $return;
+}
+/*
+  Make the volume display
+*/
+function display_volume(){
+  $return= '<meter value="000" min="000" max="100" low="090">000</meter>';
+  return $return;
+}
+function makePlayerTable(&$list,$columns){
   /*
     This defines what columns we want in the table and in what order. There are
     some items that are not part of the $list array and some items we don't want
     to display.
   */
-  $columns = array(
-              "move_up",
-              "move_down",
-              "title",
-              "keybind",
-              "play",
-              "duration",
-              "under",
-              "volume",
-              "loop",
-              "segue",
-              "to_list"
-              );
-  
-  $return='<table id="main-table">'."\n";
-  foreach($list as $key => $value){
-    // $key is the clip id
-    if($key == 0){
-      $tag="th";
-      $key='head';
-    }
-    else{
-      $tag="td";
-    }
-    $return.='<tr id="table-row-'.$key.'">'."\n";
-    // This is to make the table based on the functionality needed.
-    foreach($columns as $ckey => $label){
-      $return.='<'.$tag.'  id="'.$label.'-'.$key.'" class="'.$label.'"></'.$tag.'>'."\n";
-    }
-#    // This is to make the table based on the $list array.
-#    foreach($value as $k => $v){
-#      
-#      $return.='<'.$tag.'  id="'.$k.'-'.$key.'">'.$v.'</'.$tag.'>'."\n";
-#    }
-    $return.='</tr>'."\n";
+  if(!isset($list) || $list===FALSE || !isset($columns)){
+    $return = '<div class="alert">There is nothing in the list.</div>'."\n";
   }
-  $return.='</table>';
-  return $return;
+  else{
+    $return='<table id="'.$list[0]['alias'].'-table" class="player-table">'."\n";
+    foreach($list as $key => $value){
+      // $key is the delta
+      if($key == 0){
+        $tag="th";
+        $return.='  <tr id="'.$list[0]['alias'].'-'.$key.'-row" class="table-head">'."\n";
+      }
+      else{
+        $tag="td";
+        $return.='  <tr id="row-'.$key.'" class="clip-stopped">'."\n";
+      }
+      /*
+        This is to make the table based on the functionality needed.
+        $ckey is the machine name of the column.
+      */
+      foreach($columns as $ckey => $label){
+        //$ckey is the cell type
+        if($key == 0){
+        
+          if( !($list[$key]['lid']==1) && $ckey=="delete"){
+            $return.='';
+          }
+          else{
+            $return.='    <'.$tag.'  id="'.$list[0]['alias'].'-'.$ckey.'-'.$key.'" class="'.$ckey.'">'.$label.'</'.$tag.'>'."\n";
+          }
+        }
+        else{
+          if( !($list[$key]['lid']==1) && $ckey=="delete"){
+            $return.='';
+          }
+          else{
+            $return.='    <'.$tag.'  id="'.$ckey.'-'.$key.
+                          '" class="'.$ckey.'">';
+            switch($ckey){
+              case "delta_up":
+                $return .= form_delta_change($list[$key],"up");
+                break;
+              case "delta_down":
+                $return .= form_delta_change($list[$key],"down");
+                break;
+              case "title":
+                $return .= form_edit_text($list[$key],"Title");
+                break;
+              case "keybind":
+                $return .= form_edit_text($list[$key],"Keybind");
+                break;
+              case "play":
+                $return .= button_play_stop($key,$list[$key]['file']);
+                break;
+              case "under":
+                $return .= button_volume_under($key);
+                break;
+              case "loop":
+                $return .= button_loop($key);
+                break;
+              case "segue":
+                $return .= button_segue($key);
+                break;
+              case "send_to_list":
+                $return .= form_send_clip_to_list($list[$key]);
+                break;
+              case "delete":
+                if($list[$key]['lid']==1){
+                  $return .= form_remove_clip($list[$key]);
+                }
+                break;
+              case "duration":
+                
+                break;
+              case "volume":
+                
+                break;
+              default:
+                $return .= "??";
+            }
+          }
+        
+          $return.='</'.$tag.'>'."\n";
+        }
+      }
+      $return.='  </tr>'."\n";
+    }
+    $return.='</table>'."\n";
+  }
+  echo $return;
 }
 
 ?>
