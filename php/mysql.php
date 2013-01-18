@@ -5,7 +5,7 @@ Database config
 define('DB_HOST',         "localhost"     );
 define('DB_USER',         "root"          );
 define('DB_PASS',         "q25r70zy"      );
-define('DB_NAME',         "sp-dev"  );
+define('DB_NAME',         "sp"  );
 /*
 Deeper DB config
 */
