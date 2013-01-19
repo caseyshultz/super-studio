@@ -58,9 +58,7 @@ $json_list = json_encode($list);
 <script type="text/javascript">playerControl(<?php echo $lid; ?>);</script>
 <script type="text/javascript">//getTableLabels(<?php echo $json_list; ?>);</script>
 
-<div id="page-footer">
-StudioPlayer - Copyright 2007 - <?php echo date("Y"); ?> Casey Shultz
-</div>
+<?php require_once('footer.php'); ?>
 
 </div><!--container-->
 

@@ -58,9 +58,7 @@ $json_list = json_encode($list);
 
 <?php include('php/debugging.php'); ?>
 
-<div id="page-footer">
-StudioPlayer - Copyright 2007 - <?php echo date("Y"); ?> Casey Shultz
-</div>
+<?php require_once('footer.php'); ?>
 
 </div><!--container-->
 
