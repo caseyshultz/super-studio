@@ -131,7 +131,7 @@ function playStop(player){
             // Check if the segue option is toggled.
             if(player.segue == true){
               // Check if the next player is not already playing.
-              if(document.getElementById(String('row-' + player.sp_next)).getAttribute('class') == 'clip-stopped'){
+              if(document.getElementById(String('row-' + player.sp_next)).getAttribute('class') == 'row clip-stopped'){
                 // Segue only if this player is not looping.
                 if(player.loop == false){
                   document.getElementById(String('play-button-' + player.sp_next)).click();
@@ -149,7 +149,7 @@ function playStop(player){
     // Check if the segue option is toggled.
     if(player.segue == true){
       // Check if the next player is not already playing.
-      if(document.getElementById(String('row-' + player.sp_next)).getAttribute('class') == 'clip-stopped'){
+      if(document.getElementById(String('row-' + player.sp_next)).getAttribute('class') == 'row clip-stopped'){
         // Segue
         document.getElementById(String('play-button-' + player.sp_next)).click();
         player.seguebutton.click();
@@ -259,7 +259,7 @@ function setVolume(player,volume){
   if(volume <= 0){
     player.volume = 0;
     dv = '000';
-    player.row.setAttribute('class', 'clip-stopped');
+    player.row.setAttribute('class', 'row clip-stopped');
     player.playbutton.setAttribute('value', 'Play');
   }
   else if(volume >= 1){
@@ -285,7 +285,7 @@ function setVolume(player,volume){
 function fireButton(player){
   upButton(player);
   player.play();
-        player.row.setAttribute('class', 'clip-playing');
+        player.row.setAttribute('class', 'row clip-playing');
         player.playbutton.innerHTML = '<i class="icon-stop"></i>';
         player.playbutton.setAttribute('class','play btn btn-warning');
   underButtonReset(player,"activate");
@@ -293,7 +293,7 @@ function fireButton(player){
 }
 
 function stopButton(player){
-        player.row.setAttribute('class', 'clip-stopped');
+        player.row.setAttribute('class', 'row clip-stopped');
         player.playbutton.innerHTML = '<i class="icon-play"></i>';
         player.playbutton.setAttribute('class','play btn btn-success');
   underButtonReset(player,"deactivate");

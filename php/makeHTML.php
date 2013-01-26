@@ -113,7 +113,7 @@ function form_send_clip_to_list($clip){
     $list_ids = db_get_lists();
     foreach($list_ids as $k => $v){
       if($k!=$clip['lid']){
-        $return.='    <option value="'.$k.'">'.$v.'</option>'."\n";
+        $return.='          <option value="'.$k.'">'.$v.'</option>'."\n";
       }
     }
     $return.='        </select>'."\n";
@@ -150,23 +150,23 @@ function form_delta_change($clip,$command){
   Make the play/stop button
 */
 function button_play_stop($cid,$file){
-  $return=  '<button id="play-button-'.$cid.
-            '" type="button" class="play btn btn-success"title="'.$file.'"><i class="icon-play"></i></button>';
+  $return=  '      <button id="play-button-'.$cid.
+            '" type="button" class="play btn btn-success"title="'.$file.'"><i class="icon-play"></i></button>'."\n";
   return $return;
 }
 function button_volume_under($cid){
-  $return=  '<button id="under-button-'.$cid.
-            '" type="button" class="under btn disabled">Under</button>';
+  $return=  '      <button id="under-button-'.$cid.
+            '" type="button" class="under btn disabled">Under</button>'."\n";
   return $return;
 }
 function button_loop($cid){
-  $return=  '<button id="loop-button-'.$cid.
-            '" type="button" class="loop btn btn-inverse"><i class="icon-repeat icon-white"></i></button>';
+  $return=  '      <button id="loop-button-'.$cid.
+            '" type="button" class="loop btn btn-inverse"><i class="icon-repeat icon-white"></i></button>'."\n";
   return $return;
 }
 function button_segue($cid){
-  $return=  '<button id="segue-button-'.$cid.
-            '" type="button" class="segue btn btn-inverse"><i class="icon-play-circle icon-white"></i></button>';
+  $return=  '      <button id="segue-button-'.$cid.
+            '" type="button" class="segue btn btn-inverse"><i class="icon-play-circle icon-white"></i></button>'."\n";
   return $return;
 }
 /*
@@ -176,6 +176,9 @@ function display_volume(){
   $return= '<meter value="000" min="000" max="100" low="090">000</meter>';
   return $return;
 }
+/*
+  This is the main way to make the table.
+*/
 function makePlayerTable(&$list,$columns){
   /*
     This defines what columns we want in the table and in what order. There are
@@ -186,51 +189,131 @@ function makePlayerTable(&$list,$columns){
     $return = '<div class="alert">There is nothing in the list.</div>'."\n";
   }
   else{
-    $return='<table id="'.$list[0]['alias'].'-table" class="player-table">'."\n";
+    $return='<table id="'.$list[0]['alias'].'-table-html" class="player-table">'."\n";
     foreach($list as $key => $value){
       // $key is the delta
       if($key == 0){
         $tag="th";
         $return.='  <tr id="'.$list[0]['alias'].'-'.$key.'-row" class="table-head">'."\n";
+
       }
       else{
         $tag="td";
-        $return.='  <tr id="row-'.$key.'" class="clip-stopped">'."\n";
-      }
-      /*
-        This is to make the table based on the functionality needed.
-        $ckey is the machine name of the column.
-      */
-      foreach($columns as $ckey => $label){
-        //$ckey is the cell type
-        if($key == 0){
-        
-          if( !($list[$key]['lid']==1) && $ckey=="delete"){
-            $return.='';
+        $return.='  <tr id="row-'.$key.'" class="row clip-stopped">'."\n";
+        /*
+          This is to make the table based on the functionality needed.
+          $ckey is the machine name of the column.
+        */
+        foreach($columns as $ckey => $label){
+          //$ckey is the cell type
+          if($key == 0){
+            if( !($list[$key]['lid']==1) && $ckey=="delete"){
+              $return.='';
+            }
+            else{
+              $return.='    <'.$tag.' id="'.$list[0]['alias'].'-'.$ckey.'-'.$key.'" class="'.$ckey.'">'.$label."\n".'    </'.$tag.'>'."\n";
+              $return.='    </'.$tag.'>'."\n";
+            }
           }
           else{
-            $return.='    <'.$tag.'  id="'.$list[0]['alias'].'-'.$ckey.'-'.$key.'" class="'.$ckey.'">'.$label.'</'.$tag.'>'."\n";
+            if( !($list[$key]['lid']==1) && $ckey=="delete"){
+              $return.="\n";
+            }
+            else{
+              $return.='    <'.$tag.' id="'.$ckey.'-'.$key.'" class="'.$ckey.'">'."\n";
+              switch($ckey){
+                case "delta_up":
+                  $return .= form_delta_change($list[$key],"up");
+                  break;
+                case "delta_down":
+                  $return .= form_delta_change($list[$key],"down");
+                  break;
+                case "title":
+                  $return .= form_edit_text($list[$key],"Title");
+                  break;
+                case "keybind":
+                  $return .= form_edit_text($list[$key],"Keybind");
+                  break;
+                case "play":
+                  $return .= button_play_stop($key,$list[$key]['file']);
+                  break;
+                case "under":
+                  $return .= button_volume_under($key);
+                  break;
+                case "loop":
+                  $return .= button_loop($key);
+                  break;
+                case "segue":
+                  $return .= button_segue($key);
+                  break;
+                case "send_to_list":
+                  $return .= form_send_clip_to_list($list[$key]);
+                  break;
+                case "delete":
+                  if($list[$key]['lid']==1){
+                    $return .= form_remove_clip($list[$key]);
+                  }
+                  break;
+                case "duration":
+                  
+                  break;
+                case "volume":
+                  
+                  break;
+                default:
+                  $return .= "??";
+              }
+              $return.='    </'.$tag.'>'."\n";
+            }
           }
         }
-        else{
-          if( !($list[$key]['lid']==1) && $ckey=="delete"){
-            $return.='';
-          }
-          else{
-            $return.='    <'.$tag.'  id="'.$ckey.'-'.$key.
-                          '" class="'.$ckey.'">';
+      }
+      $return.='  </tr>'."\n";
+    }
+    $return.='</table>'."\n";
+  }
+  echo $return;
+}
+
+/*
+  This is the android way to make the table.
+*/
+function makePlayerTableAndroid(&$list,$columns){
+  /*
+    This defines what columns we want in the table and in what order. There are
+    some items that are not part of the $list array and some items we don't want
+    to display.
+  */
+  $tag="div";
+  if(!isset($list) || $list===FALSE || !isset($columns)){
+    $return = '<div class="alert">There is nothing in the list.</div>'."\n";
+  }
+  else{
+    $return='<div id="'.$list[0]['alias'].'-table-android" class="player-table">'."\n";
+    foreach($list as $key => $value){
+      // $key is the delta
+      if($key !== 0){
+        $return.='  <div id="row-'.$key.'" class="row clip-stopped">'."\n";
+        /*
+          This is to make the table based on the functionality needed.
+          $ckey is the machine name of the column.
+        */
+        foreach($columns as $ckey => $label){
+          //$ckey is the cell type
+            $return.='    <div  id="'.$ckey.'-'.$key.
+                          '" class="'.$ckey.'">'."\n";
             switch($ckey){
               case "delta_up":
-                $return .= form_delta_change($list[$key],"up");
+                
                 break;
               case "delta_down":
-                $return .= form_delta_change($list[$key],"down");
+                
                 break;
               case "title":
                 $return .= form_edit_text($list[$key],"Title");
                 break;
               case "keybind":
-                $return .= form_edit_text($list[$key],"Keybind");
+                
                 break;
               case "play":
                 $return .= button_play_stop($key,$list[$key]['file']);
@@ -245,12 +328,10 @@ function makePlayerTable(&$list,$columns){
                 $return .= button_segue($key);
                 break;
               case "send_to_list":
-                $return .= form_send_clip_to_list($list[$key]);
+                
                 break;
               case "delete":
-                if($list[$key]['lid']==1){
-                  $return .= form_remove_clip($list[$key]);
-                }
+                
                 break;
               case "duration":
                 
@@ -261,16 +342,13 @@ function makePlayerTable(&$list,$columns){
               default:
                 $return .= "??";
             }
-          }
-        
-          $return.='</'.$tag.'>'."\n";
+            $return.='    </div>'."\n";//item
         }
+        $return.='  </div>'."\n";//row
       }
-      $return.='  </tr>'."\n";
     }
-    $return.='</table>'."\n";
+    $return.='</div>'."\n";//table
   }
   echo $return;
 }
-
 ?>

@@ -37,14 +37,14 @@ $main_table_columns = array(
 <?php require_once('header.php'); ?>
 
 <div>
-<?php include('php/formSelectList.php'); ?>
-</div>
-
-<div>
 <?php
 makePlayerTable($list,$main_table_columns);
 $json_list = json_encode($list);
 ?>
+</div>
+
+<div>
+<?php include('php/formSelectList.php'); ?>
 </div>
 
 <div>

@@ -9,11 +9,11 @@ require_once('php/config.php');
   uses.
 */
 $main_table_columns = array(
-            "keybind"=>"Key",
-            "title"=>"Title",
-            "duration"=>"Time",
-            "volume"=>"Volume",
             "play"=>"Play/Stop",
+            "title"=>"Title",
+            "volume"=>"Volume",
+            "keybind"=>"Key",
+            "duration"=>"Time",
             "under"=>"Under",
             "loop"=>"Loop",
             "segue"=>"Segue",
@@ -27,7 +27,7 @@ $main_table_columns = array(
 <head>
 <title>StudioPlayer-DEV</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/android1-style.css" />
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
@@ -42,7 +42,7 @@ $main_table_columns = array(
 
 <div>
 <?php
-makePlayerTable($list,$main_table_columns);
+makePlayerTableAndroid($list,$main_table_columns);
 $json_list = json_encode($list);
 ?>
 </div>
