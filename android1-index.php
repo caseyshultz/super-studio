@@ -25,7 +25,7 @@ $main_table_columns = array(
 ?>
 <html>
 <head>
-<title>StudioPlayer-DEV</title>
+<title>StudioPlayer-Android</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="css/android1-style.css" />
 <link rel="shortcut icon" href="favicon.ico">
